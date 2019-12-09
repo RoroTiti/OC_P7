@@ -1,4 +1,4 @@
-from chatbot.openmediawiki import OpenMediaWiki
+from src.chatbot.openmediawiki import OpenMediaWiki
 
 
 def test_get_answer():

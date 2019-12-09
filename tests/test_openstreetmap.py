@@ -1,4 +1,4 @@
-from chatbot.openstreetmap import OpenStreetMap
+from src.chatbot.openstreetmap import OpenStreetMap
 
 
 def test_get_answer():
