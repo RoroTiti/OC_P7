@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from abc import abstractmethod, ABCMeta
 
+import requests
 from regex import regex
 
 from src.chatbots.openmediawiki import OpenMediaWikiBot
@@ -20,7 +21,7 @@ class ChatBotFactory(metaclass=ABCMeta):
         """
         pass
 
-    def get_object(self) -> str:
+    def get_object(self) -> any:
         """
         Also note that, despite its name, the Creator's primary responsibility
         is not creating products. Usually, it contains some core business logic
@@ -42,10 +43,39 @@ class ChatBotFactory(metaclass=ABCMeta):
 class OpenStreetMapBotFactory(ChatBotFactory):
     def build(self) -> OpenStreetMapBot:
         clean_question = super().parse_question()
-        return OpenStreetMapBot()
+
+        osm_response = requests.get("https://nominatim.openstreetmap.org/search?"
+                                    f"q={clean_question}&"
+                                    "addressdetails=1&"
+                                    "countrycodes=fr&"
+                                    "limit=1&"
+                                    "format=json")
+
+        osm_object = osm_response.json()[0]
+
+        display_name = osm_object["display_name"]
+
+        latitude = osm_object["lat"]
+        longitude = osm_object["lon"]
+
+        house_number = None
+        if osm_object["address"]["house_number"]:
+            house_number = osm_object["address"]["house_number"]
+
+        locality = None
+        if "village" in osm_object["address"]:
+            locality = osm_object["address"]["village"]
+        elif "city" in osm_object["address"]:
+            locality = osm_object["address"]["city"]
+
+        road = osm_object["address"]["road"]
+
+        postcode = osm_object["address"]["postcode"]
+
+        return OpenStreetMapBot(display_name, latitude, longitude, house_number, road, locality, postcode)
 
 
 class OpenMediaWikiBotFactory(ChatBotFactory):
     def build(self) -> OpenMediaWikiBot:
         clean_question = super().parse_question()
-        return OpenMediaWikiBot(clean_question)
+        return OpenMediaWikiBot()
