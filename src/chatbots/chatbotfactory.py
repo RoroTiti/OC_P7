@@ -59,7 +59,7 @@ class OpenStreetMapBotFactory(ChatBotFactory):
         longitude = osm_object["lon"]
 
         house_number = None
-        if osm_object["address"]["house_number"]:
+        if "house_number" in osm_object["address"]:
             house_number = osm_object["address"]["house_number"]
 
         locality = None

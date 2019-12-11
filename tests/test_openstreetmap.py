@@ -1,15 +1,8 @@
-from src.chatbots.chatbotfactory import OpenStreetMapBotFactory, OpenMediaWikiBotFactory
+from src.chatbots.chatbotfactory import OpenStreetMapBotFactory
 from src.chatbots.openstreetmap import OpenStreetMapBot
 
 
 def test_get_answer():
-    # print("App: Launched with the ConcreteCreator1.")
-    # print(OpenStreetMapBotFactory().get_object())
-    # print("\n")
-    #
-    # print("App: Launched with the ConcreteCreator2.")
-    # print(OpenMediaWikiBotFactory().get_object())
-
     question = "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?"
     factory = OpenStreetMapBotFactory(question)
     osm: OpenStreetMapBot = factory.get_object()
