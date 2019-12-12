@@ -1,5 +1,4 @@
-from __future__ import annotations
-
+import random
 from abc import abstractmethod, ABCMeta
 
 import requests
@@ -10,39 +9,26 @@ from src.chatbots.openstreetmap import OpenStreetMapBot
 
 
 class ChatBotFactory(metaclass=ABCMeta):
-    def __init__(self, question):
-        self.question = question
 
     @abstractmethod
     def build(self):
-        """
-        Note that the Creator may also provide some default implementation of
-        the factory method.
-        """
         pass
 
     def get_object(self) -> any:
-        """
-        Also note that, despite its name, the Creator's primary responsibility
-        is not creating products. Usually, it contains some core business logic
-        that relies on Product objects, returned by the factory method.
-        Subclasses can indirectly change that business logic by overriding the
-        factory method and returning a different type of product from it.
-        """
-        # Call the factory method to create a Product object.
-        result = self.build()
-        # Now, use the product.
-        # result = f"Creator: The same creator's code has just worked with {product.operation()}"
-        return result
+        return self.build()
+
+
+class OpenStreetMapBotFactory(ChatBotFactory):
+
+    def __init__(self, question):
+        self.question = question
 
     def parse_question(self) -> str:
         parse_result = regex.search("(?<=(adresse (du |de |d')|situe (le |la |les | ))).*?(?= \\?)", self.question)
         return parse_result[0]
 
-
-class OpenStreetMapBotFactory(ChatBotFactory):
     def build(self) -> OpenStreetMapBot:
-        clean_question = super().parse_question()
+        clean_question = self.parse_question()
 
         osm_response = requests.get("https://nominatim.openstreetmap.org/search?"
                                     f"q={clean_question}&"
@@ -76,6 +62,50 @@ class OpenStreetMapBotFactory(ChatBotFactory):
 
 
 class OpenMediaWikiBotFactory(ChatBotFactory):
+
+    def __init__(self, latitude, longitude):
+        super().__init__()
+        self.latitude = latitude
+        self.longitude = longitude
+
     def build(self) -> OpenMediaWikiBot:
-        clean_question = super().parse_question()
-        return OpenMediaWikiBot()
+        omw_object = self.perform_geo_search(self.latitude, self.longitude)
+
+        page_ids = []
+        if "query" in omw_object and "geosearch" in omw_object["query"]:
+            for item in omw_object["query"]["geosearch"]:
+                page_ids.append(item["pageid"])
+
+        random_index = random.randint(0, len(page_ids) - 1)
+        chosen_page_id = page_ids[random_index]
+
+        omw_object = self.perform_query_search(chosen_page_id)
+
+        intro = omw_object["query"]["pages"][str(chosen_page_id)]["extract"]
+
+        return OpenMediaWikiBot(intro)
+
+    @staticmethod
+    def perform_geo_search(latitude, longitude):
+        omw_response = requests.get("https://fr.wikipedia.org/w/api.php?"
+                                    "action=query&"
+                                    "list=geosearch&"
+                                    f"gscoord={latitude}|{longitude}&"
+                                    "gsradius=10000&"  # 10 000 meters, so 10kms max around
+                                    "gslimit=10&"  # 10 results max
+                                    "format=json")
+
+        return omw_response.json()
+
+    @staticmethod
+    def perform_query_search(chosen_page_id):
+        omw_response = requests.get("https://fr.wikipedia.org/w/api.php?"
+                                    "action=query&"
+                                    "prop=extracts&"
+                                    "explaintext&"
+                                    "exsentences=3&"
+                                    "exsectionformat=plain&"
+                                    f"pageids={chosen_page_id}&"
+                                    "format=json")
+
+        return omw_response.json()
