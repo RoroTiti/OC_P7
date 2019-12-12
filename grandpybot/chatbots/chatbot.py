@@ -5,4 +5,4 @@ class ChatBot(ABC):
 
     @abstractmethod
     def get_answer(self) -> str:
-        pass
+        """abstract"""

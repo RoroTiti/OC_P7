@@ -12,7 +12,7 @@ class ChatBotFactory(metaclass=ABCMeta):
 
     @abstractmethod
     def build(self):
-        pass
+        """abstract"""
 
     def get_object(self) -> any:
         return self.build()
@@ -29,15 +29,7 @@ class OpenStreetMapBotFactory(ChatBotFactory):
 
     def build(self) -> OpenStreetMapBot:
         clean_question = self.parse_question()
-
-        osm_response = requests.get("https://nominatim.openstreetmap.org/search?"
-                                    f"q={clean_question}&"
-                                    "addressdetails=1&"
-                                    "countrycodes=fr&"
-                                    "limit=1&"
-                                    "format=json")
-
-        osm_object = osm_response.json()[0]
+        osm_object = self.perform_search(clean_question)
 
         display_name = osm_object["display_name"]
 
@@ -59,6 +51,17 @@ class OpenStreetMapBotFactory(ChatBotFactory):
         postcode = osm_object["address"]["postcode"]
 
         return OpenStreetMapBot(display_name, latitude, longitude, house_number, road, locality, postcode)
+
+    @staticmethod
+    def perform_search(search_term):
+        osm_response = requests.get("https://nominatim.openstreetmap.org/search?"
+                                    f"q={search_term}&"
+                                    "addressdetails=1&"
+                                    "countrycodes=fr&"
+                                    "limit=1&"
+                                    "format=json")
+
+        return osm_response.json()[0]
 
 
 class OpenMediaWikiBotFactory(ChatBotFactory):
