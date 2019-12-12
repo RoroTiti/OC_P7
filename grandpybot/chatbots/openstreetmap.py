@@ -1,4 +1,4 @@
-from src.chatbots.chatbot import ChatBot
+from grandpybot.chatbots.chatbot import ChatBot
 
 
 class OpenStreetMapBot(ChatBot):

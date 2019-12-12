@@ -2,9 +2,9 @@ import random
 
 import requests
 
-from src.chatbots.chatbotfactory import OpenMediaWikiBotFactory, OpenStreetMapBotFactory
-from src.chatbots.openmediawiki import OpenMediaWikiBot
-from src.chatbots.openstreetmap import OpenStreetMapBot
+from grandpybot.chatbots.chatbotfactory import OpenMediaWikiBotFactory, OpenStreetMapBotFactory
+from grandpybot.chatbots.openmediawiki import OpenMediaWikiBot
+from grandpybot.chatbots.openstreetmap import OpenStreetMapBot
 
 
 def test_chatbots(monkeypatch):

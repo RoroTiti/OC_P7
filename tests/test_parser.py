@@ -1,4 +1,4 @@
-from src.chatbots.chatbotfactory import OpenStreetMapBotFactory
+from grandpybot.chatbots.chatbotfactory import OpenStreetMapBotFactory
 
 
 def test_parser():

@@ -4,8 +4,8 @@ from abc import abstractmethod, ABCMeta
 import requests
 from regex import regex
 
-from src.chatbots.openmediawiki import OpenMediaWikiBot
-from src.chatbots.openstreetmap import OpenStreetMapBot
+from grandpybot.chatbots.openmediawiki import OpenMediaWikiBot
+from grandpybot.chatbots.openstreetmap import OpenStreetMapBot
 
 
 class ChatBotFactory(metaclass=ABCMeta):
