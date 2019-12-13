@@ -15,17 +15,20 @@ def test_chatbots(monkeypatch):
     def mock_get_osm(*args, **kwargs):
         return OSMMockResponse()
 
+    def mock_get_osm_search(*args, **kwargs):
+        return OSMMockResponse().perform_search()
+
     def mock_get_omw_geo_search(*args, **kwargs):
-        return OMWMockResponse().perform_geosearch()
+        return OMWMockResponse().perform_geo_search()
 
     def mock_get_omw_query_search(*args, **kwargs):
-        return OMWMockResponse().perform_query()
+        return OMWMockResponse().perform_query_search()
 
     def mock_get_randint(*args, **kwargs):
         return RandomMockResponse().randint()
 
     # apply the monkeypatch for requests.get to mock_get_osm
-    monkeypatch.setattr(requests, "get", mock_get_osm)
+    monkeypatch.setattr(OpenStreetMapBotFactory, "perform_search", mock_get_osm_search)
 
     factory = OpenStreetMapBotFactory(question)
     osm: OpenStreetMapBot = factory.get_object()
@@ -67,48 +70,46 @@ class OSMMockResponse:
 
     # mock json() method always returns a specific testing dictionary
     @staticmethod
-    def json():
-        return [
-            {
-                "place_id": 251835758,
-                "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
-                "osm_type": "node",
-                "osm_id": 6242758322,
-                "boundingbox": [
-                    "48.8747286",
-                    "48.8748286",
-                    "2.3504385",
-                    "2.3505385"
-                ],
-                "lat": "48.8747786",
-                "lon": "2.3504885",
-                "display_name": "OpenClassRooms, 7, Cité Paradis, Quartier de la Porte-Saint-Denis, Paris 10e Arrondissement, Paris, Île-de-France, "
-                                "France métropolitaine, 75010, France",
-                "class": "office",
-                "type": "company",
-                "importance": 0.101,
-                "address": {
-                    "address29": "OpenClassRooms",
-                    "house_number": "7",
-                    "road": "Cité Paradis",
-                    "suburb": "Quartier de la Porte-Saint-Denis",
-                    "city_district": "Paris 10e Arrondissement",
-                    "city": "Paris",
-                    "county": "Paris",
-                    "state": "Île-de-France",
-                    "country": "France",
-                    "postcode": "75010",
-                    "country_code": "fr"
-                }
+    def perform_search():
+        return {
+            "place_id": 251835758,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 6242758322,
+            "boundingbox": [
+                "48.8747286",
+                "48.8748286",
+                "2.3504385",
+                "2.3505385"
+            ],
+            "lat": "48.8747786",
+            "lon": "2.3504885",
+            "display_name": "OpenClassRooms, 7, Cité Paradis, Quartier de la Porte-Saint-Denis, Paris 10e Arrondissement, Paris, Île-de-France, "
+                            "France métropolitaine, 75010, France",
+            "class": "office",
+            "type": "company",
+            "importance": 0.101,
+            "address": {
+                "address29": "OpenClassRooms",
+                "house_number": "7",
+                "road": "Cité Paradis",
+                "suburb": "Quartier de la Porte-Saint-Denis",
+                "city_district": "Paris 10e Arrondissement",
+                "city": "Paris",
+                "county": "Paris",
+                "state": "Île-de-France",
+                "country": "France",
+                "postcode": "75010",
+                "country_code": "fr"
             }
-        ]
+        }
 
 
 class OMWMockResponse:
 
     # mock json() method always returns a specific testing dictionary
     @staticmethod
-    def perform_geosearch():
+    def perform_geo_search():
         return {
             "batchcomplete": "",
             "query": {
@@ -128,7 +129,7 @@ class OMWMockResponse:
 
     # mock json() method always returns a specific testing dictionary
     @staticmethod
-    def perform_query():
+    def perform_query_search():
         return {
             "batchcomplete": "",
             "warnings": {
