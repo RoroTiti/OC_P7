@@ -28,8 +28,6 @@ def answer_question():
     data = request.form
     question = data["question"]
 
-    print(data)
-
     factory = OpenStreetMapBotFactory(question)
     osm: OpenStreetMapBot = factory.get_object()
 

@@ -81,9 +81,13 @@ class OpenStreetMapBotFactory(ChatBotFactory):
         elif "city" in osm_object["address"]:
             locality = osm_object["address"]["city"]
 
-        road = osm_object["address"]["road"]
+        road = None
+        if "road" in osm_object["address"]:
+            road = osm_object["address"]["road"]
 
-        postcode = osm_object["address"]["postcode"]
+        postcode = None
+        if "postcode" in osm_object["address"]:
+            postcode = osm_object["address"]["postcode"]
 
         return OpenStreetMapBot(display_name, latitude, longitude, house_number, road, locality, postcode)
 

@@ -5,6 +5,8 @@ $(document).ready(function () {
         let form = this;
         let thinking_spinner = $("#thinking-spinner");
         let message_placeholder = $("#message-placeholder");
+        let messages_box = $('#messages-box');
+
 
         axios({
             method: "post",
@@ -15,8 +17,8 @@ $(document).ready(function () {
             //handle success
             message_placeholder.before(response.data);
             form.reset();
-
             thinking_spinner.css("display", "");
+            messages_box.animate({scrollTop: 99999}, 'slow');
 
             axios({
                 method: "post",
@@ -26,10 +28,8 @@ $(document).ready(function () {
             }).then(function (response) {
                 //handle success
                 message_placeholder.before(response.data);
-                form.reset();
-
-                thinking_spinner.css("display", "none")
-
+                thinking_spinner.css("display", "none");
+                messages_box.animate({scrollTop: 10000}, 'slow');
             }).catch(function (response) {
                 //handle error
                 console.log(response);

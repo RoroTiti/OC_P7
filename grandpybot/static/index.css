@@ -15,7 +15,7 @@ body {
 }
 
 .chat-box {
-    height: 510px;
+    height: 75vh;
     overflow-y: scroll;
 }
 

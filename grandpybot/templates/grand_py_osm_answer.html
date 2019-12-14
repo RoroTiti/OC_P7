@@ -1,7 +1,7 @@
 {% extends "grand_py_answer.html" %}
 
 {% block content %}
-    <div id="{{ uuid }}" style="height: 200px"></div>
+    <div id="{{ uuid }}" style="height: 250px"></div>
 
     <script>
         window[{{ uuid }}] = L.map({{ uuid }}).setView(["{{ latitude }}", "{{ longitude }}"], 13);
