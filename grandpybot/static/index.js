@@ -7,7 +7,6 @@ $(document).ready(function () {
         let message_placeholder = $("#message-placeholder");
         let messages_box = $('#messages-box');
 
-
         axios({
             method: "post",
             url: "/",
@@ -31,12 +30,12 @@ $(document).ready(function () {
                 thinking_spinner.css("display", "none");
                 messages_box.animate({scrollTop: 10000}, 'slow');
             }).catch(function (response) {
-                //handle error
+                thinking_spinner.css("display", "none");
                 console.log(response);
             });
 
         }).catch(function (response) {
-            //handle error
+            thinking_spinner.css("display", "none");
             console.log(response);
         });
     });
