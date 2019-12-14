@@ -52,10 +52,6 @@ def answer_question():
             html = render_template("grand_py_error_answer.html",
                                    error="Je n'ai rien trouvé pour répondre à ta question... Peut-être comporte-t-elle une erreur ?")
 
-        except requests.exceptions.ConnectionError:
-            html = render_template("grand_py_error_answer.html",
-                                   error="Mince, je n'ai pas réussi à consulter mes archives... Elles sont momentanément indisponibles.")
-
     return html
 
 

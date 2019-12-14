@@ -29,14 +29,26 @@ $(document).ready(function () {
                 message_placeholder.before(response.data);
                 thinking_spinner.css("display", "none");
                 messages_box.animate({scrollTop: 10000}, 'slow');
-            }).catch(function (response) {
+            }).catch(function (error) {
                 thinking_spinner.css("display", "none");
-                console.log(response);
+
+                new Noty({
+                    theme: "bootstrap-v4",
+                    text: error.response.data,
+                    type: "error",
+                    timeout: 3000
+                }).show();
             });
 
-        }).catch(function (response) {
+        }).catch(function (error) {
             thinking_spinner.css("display", "none");
-            console.log(response);
+
+            new Noty({
+                theme: "bootstrap-v4",
+                text: error.response.data,
+                type: "error",
+                timeout: 3000
+            }).show();
         });
     });
 });
