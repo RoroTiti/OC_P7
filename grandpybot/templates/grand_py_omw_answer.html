@@ -2,5 +2,6 @@
 
 {% block content %}
     <p class="text-small mb-0 text-muted">
+        {{ omw.get_answer() | safe }}
     </p>
 {% endblock %}

@@ -33,7 +33,8 @@ def test_chatbots(monkeypatch):
     factory = OpenStreetMapBotFactory(question)
     osm: OpenStreetMapBot = factory.get_object()
 
-    assert osm.get_answer() == "Bien sûr mon poussin ! La voici : 7 Cité Paradis, 75010 Paris."
+    assert osm.get_answer() == "Bien sûr mon poussin ! La voici : OpenClassRooms, 7, Cité Paradis, Quartier de la Porte-Saint-Denis, " \
+                               "Paris 10e Arrondissement, Paris, Île-de-France, France métropolitaine, 75010, France"
     assert osm.display_name == "OpenClassRooms, " \
                                "7, Cité Paradis, " \
                                "Quartier de la Porte-Saint-Denis, " \

@@ -67,29 +67,10 @@ class OpenStreetMapBotFactory(ChatBotFactory):
         osm_object = self.perform_search(clean_question)
 
         display_name = osm_object["display_name"]
-
         latitude = osm_object["lat"]
         longitude = osm_object["lon"]
 
-        house_number = None
-        if "house_number" in osm_object["address"]:
-            house_number = osm_object["address"]["house_number"]
-
-        locality = None
-        if "village" in osm_object["address"]:
-            locality = osm_object["address"]["village"]
-        elif "city" in osm_object["address"]:
-            locality = osm_object["address"]["city"]
-
-        road = None
-        if "road" in osm_object["address"]:
-            road = osm_object["address"]["road"]
-
-        postcode = None
-        if "postcode" in osm_object["address"]:
-            postcode = osm_object["address"]["postcode"]
-
-        return OpenStreetMapBot(display_name, latitude, longitude, house_number, road, locality, postcode)
+        return OpenStreetMapBot(display_name, latitude, longitude)
 
     @staticmethod
     def perform_search(search_term):
@@ -144,9 +125,7 @@ class OpenMediaWikiBotFactory(ChatBotFactory):
         omw_response = requests.get("https://fr.wikipedia.org/w/api.php?"
                                     "action=query&"
                                     "prop=extracts&"
-                                    "explaintext&"
                                     "exsentences=3&"
-                                    "exsectionformat=plain&"
                                     f"pageids={chosen_page_id}&"
                                     "format=json")
 

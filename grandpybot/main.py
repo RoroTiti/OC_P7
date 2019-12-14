@@ -36,6 +36,8 @@ def answer_question():
     factory = OpenMediaWikiBotFactory(osm.latitude, osm.longitude)
     omw: OpenMediaWikiBot = factory.get_object()
 
+    html += render_template("grand_py_omw_answer.html", omw=omw)
+
     return html
 
 
