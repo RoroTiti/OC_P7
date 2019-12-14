@@ -1,17 +1,22 @@
 {% extends "grand_py_answer.html" %}
 
 {% block content %}
+    <p class="text-small mb-2 text-muted">
+        {{ osm.get_answer() }}
+    </p>
+
     <div id="{{ uuid }}" style="height: 250px"></div>
 
     <script>
-        window[{{ uuid }}] = L.map({{ uuid }}).setView(["{{ latitude }}", "{{ longitude }}"], 13);
+        window[{{ uuid }}] = L.map({{ uuid }}).setView(["{{ osm.latitude }}", "{{ osm.longitude }}"], 13);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(window[{{ uuid }}]);
 
-        L.marker(["{{ latitude }}", "{{ longitude }}"]).addTo(window[{{ uuid }}])
-            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+        L.marker(["{{ osm.latitude }}", "{{ osm.longitude }}"])
+            .addTo(window[{{ uuid }}])
+            .bindPopup("{{ osm.display_name }}")
             .openPopup();
     </script>
 {% endblock %}

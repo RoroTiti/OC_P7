@@ -31,10 +31,7 @@ def answer_question():
     factory = OpenStreetMapBotFactory(question)
     osm: OpenStreetMapBot = factory.get_object()
 
-    html = render_template("grand_py_osm_answer.html",
-                           latitude=osm.latitude,
-                           longitude=osm.longitude,
-                           uuid=uuid_generator())
+    html = render_template("grand_py_osm_answer.html", osm=osm, uuid=uuid_generator())
 
     factory = OpenMediaWikiBotFactory(osm.latitude, osm.longitude)
     omw: OpenMediaWikiBot = factory.get_object()
