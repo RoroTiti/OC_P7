@@ -2,7 +2,6 @@ import random
 from abc import abstractmethod, ABCMeta
 
 import requests
-from regex import regex
 
 from grandpybot.chatbots.openmediawiki import OpenMediaWikiBot
 from grandpybot.chatbots.openstreetmap import OpenStreetMapBot
@@ -20,51 +19,11 @@ class ChatBotFactory(metaclass=ABCMeta):
 
 class OpenStreetMapBotFactory(ChatBotFactory):
 
-    def __init__(self, question):
-        self.question = question
-
-    def parse_question(self) -> str:
-        determinants = ["le", "la", "l", "les", "de", "du", "d"]
-        verbs = ["situe", "situent", "adresse"]
-
-        self.question = self.question.replace("'", " ")
-
-        words_list = self.question.split(" ")
-
-        verb_index = 0
-        for verb in verbs:
-            if verb in words_list:
-                verb_index = words_list.index(verb)
-                break
-
-        if words_list[verb_index + 1] in determinants:
-            words_list.pop(verb_index + 1)
-
-        self.question = " ".join(words_list)
-
-        words_list = self.question.split(" ")
-
-        search_term = ""
-        start_index = 0
-        end_index = 0
-
-        for verb in verbs:
-            if verb in self.question:
-                for i in range(0, len(words_list)):
-                    if verb in words_list[i]:
-                        start_index = i + 1
-                    elif words_list[i] == "?":
-                        end_index = i
-                        break
-
-        for i in range(start_index, end_index):
-            search_term += words_list[i] + " "
-
-        return search_term.rstrip()
+    def __init__(self, search_term):
+        self.search_term = search_term
 
     def build(self) -> OpenStreetMapBot:
-        clean_question = self.parse_question()
-        osm_object = self.perform_search(clean_question)
+        osm_object = self.perform_search(self.search_term)
 
         display_name = osm_object["display_name"]
         latitude = osm_object["lat"]
