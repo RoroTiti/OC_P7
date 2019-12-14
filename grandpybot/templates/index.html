@@ -1,11 +1,18 @@
 <html lang="fr">
 <head>
     <title>GrandPyBot</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
     <link rel="stylesheet" href="{{ url_for("static", filename="index.css") }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+    <script src="{{ url_for("static", filename="index.js") }}"></script>
 </head>
 
 <div class="container py-5 px-4">
@@ -21,7 +28,7 @@
         <div class="col-12 px-0">
             <div class="px-4 py-5 chat-box bg-white">
                 <!-- GrandPy Message-->
-                {% include "grand_py_answer.html" %}
+                {% include "grand_py_first_message.html" %}
 
                 <div id="message-placeholder"></div>
 
@@ -30,12 +37,12 @@
             </div>
 
             <!-- Typing area -->
-            <form class="bg-light">
+            <form id="question-form" class="bg-light" method="post" action="/">
                 <div class="input-group">
-                    <input type="text" placeholder="Type a message" aria-describedby="button-addon2"
+                    <input name="question" type="text" placeholder="Type a message" aria-describedby="button-addon2"
                            class="form-control rounded-0 border-0 py-4 bg-light">
                     <div class="input-group-append">
-                        <button id="button-addon2" type="submit" class="btn btn-link text-black-50"><i class="fa fa-paper-plane"></i></button>
+                        <button id="button-addon2" type="submit" class="btn btn-link text-black-50"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </form>

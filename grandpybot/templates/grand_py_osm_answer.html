@@ -1,0 +1,17 @@
+{% extends "grand_py_answer.html" %}
+
+{% block content %}
+    <div id="{{ uuid }}" style="height: 200px"></div>
+
+    <script>
+        window[{{ uuid }}] = L.map({{ uuid }}).setView(["{{ latitude }}", "{{ longitude }}"], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(window[{{ uuid }}]);
+
+        L.marker(["{{ latitude }}", "{{ longitude }}"]).addTo(window[{{ uuid }}])
+            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+            .openPopup();
+    </script>
+{% endblock %}

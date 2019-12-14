@@ -6,7 +6,7 @@ def test_parser():
     parse_result = OpenStreetMapBotFactory(question).parse_question()
     assert parse_result == "OpenClassrooms"
 
-    question = "Salut GrandPy ! où se situe le OpenClassrooms ?"
+    question = "Salut GrandPy ! où se situe OpenClassrooms ?"
     parse_result = OpenStreetMapBotFactory(question).parse_question()
     assert parse_result == "OpenClassrooms"
 
