@@ -17,16 +17,16 @@
     <script src="{{ url_for("static", filename="index.js") }}"></script>
 </head>
 
-<div class="container py-4 px-2">
+<div class="container p-4">
     <!-- For demo purpose-->
     <header class="text-center">
         <h1 class="display-4 text-white mb-4">GrandPyBot</h1>
     </header>
 
-    <div class="row rounded-lg overflow-hidden shadow">
+    <div class="row">
         <!-- Chat Box-->
-        <div class="col-12 px-0">
-            <div id="messages-box" class="px-4 py-5 chat-box bg-white">
+        <div class="col-12 rounded-lg overflow-hidden shadow p-0">
+            <div id="messages-box" class="p-4 chat-box bg-white">
                 <!-- GrandPy Message-->
                 {% include "grand_py_first_message.html" %}
 
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Typing area -->
-            <form id="question-form" class="bg-light" method="post" action="/">
+            <form id="question-form" class="bg-light m-0" method="post" action="/">
                 <div class="input-group">
                     <input name="question"
                            type="text"

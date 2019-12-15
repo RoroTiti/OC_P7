@@ -1,7 +1,10 @@
-<div class="media w-50 ml-auto mb-3">
+<div class="media mb-3">
+    <img class="mr-3" src="{{ url_for("static", filename="boy.svg") }}" alt="user" width="48">
     <div class="media-body">
-        <div class="bg-primary rounded py-2 px-3 mb-2">
-            <p class="text-small mb-0 text-white">{{ question }}</p>
+        <div class="bg-secondary rounded py-2 px-3">
+            <p class="text-small mb-0 text-white">
+                {{ question }}
+            </p>
         </div>
     </div>
 </div>

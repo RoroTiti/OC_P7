@@ -15,7 +15,7 @@ body {
 }
 
 .chat-box {
-    height: 75vh;
+    height: 70vh;
     overflow-y: scroll;
 }
 
@@ -26,10 +26,6 @@ body {
 input::placeholder {
     font-size: 0.9rem;
     color: #999;
-}
-
-form {
-    margin-bottom: 0;
 }
 
 /* https://loading.io/css/ */
