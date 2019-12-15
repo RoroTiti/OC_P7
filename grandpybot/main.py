@@ -33,7 +33,7 @@ def answer_question():
 
     if search_term == "":
         html = render_template("grand_py_error_answer.html",
-                               error="Ta question semble incomplète ou mal formulée, je ne la comprends pas bien... Peux tu réessayer ?")
+                               error="Ta question semble incomplète ou mal formulée, je ne la comprends pas bien... Peux-tu réessayer ?")
     else:
         try:
             factory = OpenStreetMapBotFactory(search_term)
