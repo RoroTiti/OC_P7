@@ -1,8 +1,13 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod, ABCMeta
 
 
-class ChatBot(ABC):
+class ChatBot(metaclass=ABCMeta):
+    """
+    Abstract class acting as a framework for any chat bot offered by the app
+    """
 
     @abstractmethod
     def get_answer(self) -> str:
-        """abstract"""
+        """
+        Allow to obtain the answer shown in the web app from any chat bot
+        """

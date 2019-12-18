@@ -1,4 +1,3 @@
-from grandpybot.chatbots.chatbotfactory import OpenStreetMapBotFactory
 from grandpybot.main import parse_question
 
 

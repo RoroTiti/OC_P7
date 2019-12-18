@@ -1,7 +1,6 @@
 import random
 import string
 
-import requests
 from flask import Flask, request
 from flask import render_template
 
@@ -14,11 +13,17 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def index():
+    """
+    Main app route, showing the chat page
+    """
     return render_template("index.html")
 
 
 @app.route("/", methods=["POST"])
 def render_question():
+    """
+    Returns the HTML corresponding to a user answer asked to a chat bot
+    """
     data = request.form
     question = data["question"]
     return render_template("user_question.html", question=question)
@@ -26,6 +31,9 @@ def render_question():
 
 @app.route("/answer", methods=["POST"])
 def answer_question():
+    """
+    Return the HTML corresponding to an answer from a chat bot
+    """
     data = request.form
     question = data["question"]
 
@@ -56,12 +64,17 @@ def answer_question():
 
 
 def uuid_generator(string_length=30) -> str:
-    """Generate a random string of letters and digits """
+    """
+    Generate a random string of letters and digits, used to generate a random LeafLet map HTML ID attribute
+    """
     letters_and_digits = string.ascii_letters + string.digits
     return "map_" + ''.join(random.choice(letters_and_digits) for i in range(string_length))
 
 
 def parse_question(question) -> str:
+    """
+    User question parser returning the search term from a user question
+    """
     determinants = ["le", "la", "l", "les", "de", "du", "d"]
     verbs = ["situe", "situent", "adresse"]
 

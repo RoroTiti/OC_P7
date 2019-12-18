@@ -8,21 +8,38 @@ from grandpybot.chatbots.openstreetmap import OpenStreetMapBot
 
 
 class ChatBotFactory(metaclass=ABCMeta):
+    """
+    Abstract chat bot factory class
+    """
 
     @abstractmethod
     def build(self):
-        """abstract"""
+        """
+        Calls the build method of inherited classes
+        """
 
     def get_object(self) -> any:
+        """
+        Returns the built chat bot item
+        """
         return self.build()
 
 
 class OpenStreetMapBotFactory(ChatBotFactory):
+    """
+    The OpenStreetMap chat bot factory
+    """
 
     def __init__(self, search_term):
+        """
+        Initializes an OpenStreetMap chat bot with the user search term
+        """
         self.search_term = search_term
 
     def build(self) -> OpenStreetMapBot:
+        """
+        Effectively builds the concrete OpenStreetMap chat bot object
+        """
         osm_object = self.perform_search(self.search_term)
 
         display_name = osm_object["display_name"]
@@ -33,6 +50,9 @@ class OpenStreetMapBotFactory(ChatBotFactory):
 
     @staticmethod
     def perform_search(search_term):
+        """
+        Performs an OpenStreetMap API call in order to fetch result from a search term
+        """
         osm_response = requests.get("https://nominatim.openstreetmap.org/search?"
                                     f"q={search_term}&"
                                     "addressdetails=1&"
@@ -44,13 +64,22 @@ class OpenStreetMapBotFactory(ChatBotFactory):
 
 
 class OpenMediaWikiBotFactory(ChatBotFactory):
+    """
+    The OpenStreetMap chat bot factory
+    """
 
     def __init__(self, latitude, longitude):
+        """
+        Initializes an OpenMediaWiki chat bot with the user search term
+        """
         super().__init__()
         self.latitude = latitude
         self.longitude = longitude
 
     def build(self) -> OpenMediaWikiBot:
+        """
+        Effectively builds the concrete OpenMediaWiki chat bot object
+        """
         omw_object = self.perform_geo_search(self.latitude, self.longitude)
 
         page_ids = []
@@ -69,6 +98,9 @@ class OpenMediaWikiBotFactory(ChatBotFactory):
 
     @staticmethod
     def perform_geo_search(latitude, longitude):
+        """
+        Performs an OpenMediaWiki Geo Search API call in order to fetch result from a search term
+        """
         omw_response = requests.get("https://fr.wikipedia.org/w/api.php?"
                                     "action=query&"
                                     "list=geosearch&"
@@ -81,6 +113,9 @@ class OpenMediaWikiBotFactory(ChatBotFactory):
 
     @staticmethod
     def perform_query_search(chosen_page_id):
+        """
+        Performs an OpenMediaWiki Query Search API call in order to fetch result from a search term
+        """
         omw_response = requests.get("https://fr.wikipedia.org/w/api.php?"
                                     "action=query&"
                                     "prop=extracts&"

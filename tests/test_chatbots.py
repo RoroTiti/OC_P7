@@ -8,12 +8,11 @@ from grandpybot.chatbots.openstreetmap import OpenStreetMapBot
 
 
 def test_chatbots(monkeypatch):
-    question = "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?"
+    """
+    Tests all chatbots based on a mocked API response and a simple question
+    """
 
-    # Any arguments may be passed and mock_get_osm() will always return our
-    # mocked object, which only has the .json() method.
-    def mock_get_osm(*args, **kwargs):
-        return OSMMockResponse()
+    question = "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassrooms ?"
 
     def mock_get_osm_search(*args, **kwargs):
         return OSMMockResponse().perform_search()
@@ -68,10 +67,15 @@ def test_chatbots(monkeypatch):
 # custom class to be the mock return value
 # will override the requests.Response returned from requests.get
 class OSMMockResponse:
+    """
+    Mocks an OpenStreetMap API response
+    """
 
-    # mock json() method always returns a specific testing dictionary
     @staticmethod
     def perform_search():
+        """
+        Mocks an OpenStreetMap API response
+        """
         return {
             "place_id": 251835758,
             "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
@@ -107,10 +111,15 @@ class OSMMockResponse:
 
 
 class OMWMockResponse:
+    """
+    Mocks an OpenMediaWiki API response
+    """
 
-    # mock json() method always returns a specific testing dictionary
     @staticmethod
     def perform_geo_search():
+        """
+        Mocks a Geo Search API response
+        """
         return {
             "batchcomplete": "",
             "query": {
@@ -128,9 +137,11 @@ class OMWMockResponse:
             }
         }
 
-    # mock json() method always returns a specific testing dictionary
     @staticmethod
     def perform_query_search():
+        """
+        Mocks a Query Search API response
+        """
         return {
             "batchcomplete": "",
             "warnings": {
@@ -154,8 +165,13 @@ class OMWMockResponse:
 
 
 class RandomMockResponse:
+    """
+    Mocks randint function
+    """
 
-    # mock json() method always returns a specific testing dictionary
     @staticmethod
     def randint():
+        """
+        Mocks randint to return always 0
+        """
         return 0
