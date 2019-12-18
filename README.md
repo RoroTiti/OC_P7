@@ -19,15 +19,17 @@ pip install virtualenv # install virtualenv if not already installed
 virtualenv venv
 ```
 
-- Enable the virtual environment (Windows)
-```
-.\venv\Scripts\activate
-```
+- Enable the virtual environment 
 
-- Enable the virtual environment (macOS)
-```
-source venv/bin/
-```
+  - MacOS/Linux
+    ```
+    source venv/bin/
+    ```
+    
+  - Windows
+    ```
+    .\venv\Scripts\activate
+    ```
 
 - Install GrandPyBot dependencies
 ```
@@ -38,7 +40,7 @@ pip install -r requirements.txt
 
 - You can now start GrandPyBot with the following commands. Run them from the root of the source code directory
 
-  - MacOS/Linux
+  - macOS/Linux
     ```
     export FLASK_APP=grandpybot.main
     python -m flask run
