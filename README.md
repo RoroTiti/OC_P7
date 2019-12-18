@@ -21,7 +21,7 @@ virtualenv venv
 
 - Enable the virtual environment 
 
-  - MacOS/Linux
+  - macOS/Linux
     ```
     source venv/bin/
     ```
