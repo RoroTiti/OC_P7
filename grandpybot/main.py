@@ -1,6 +1,7 @@
 import random
 import string
 
+import spacy
 from flask import Flask, request
 from flask import render_template
 
@@ -9,6 +10,10 @@ from grandpybot.chatbots.openmediawiki import OpenMediaWikiBot
 from grandpybot.chatbots.openstreetmap import OpenStreetMapBot
 
 app = Flask(__name__)
+
+print("Loading spaCy...")
+nlp = spacy.load("fr_core_news_md")
+print("spaCy loaded!")
 
 
 @app.route("/", methods=["GET"])
@@ -75,45 +80,39 @@ def parse_question(question) -> str:
     """
     User question parser returning the search term from a user question
     """
-    determinants = ["le", "la", "l", "les", "de", "du", "d"]
-    verbs = ["situe", "situent", "adresse"]
+    doc = nlp(question)
 
-    if not any(word in question for word in verbs) or not "?" in question:
+    keywords = []
+    words_to_check = []
+
+    for token in doc:
+        if token.pos_ == "VERB":
+            for child in token.children:
+                if child.pos_ in ["NOUN", "PROPN", "ADJ"]:
+                    keywords.append(child)
+                    words_to_check.append(child)
+
+    while len(words_to_check) > 0:
+        for child in words_to_check[0].children:
+            if child.pos_ in ["NOUN", "PROPN", "ADJ"]:
+                keywords.append(child)
+                words_to_check.append(child)
+
+        words_to_check.pop(0)
+
+    keywords.sort(key=lambda x: x.idx)
+
+    for keyword in keywords:
+        if keyword.lemma_ in ["adresse"]:
+            keywords.remove(keyword)
+
+    if len(keywords) > 0:
+        idx_start = keywords[0].idx
+        idx_end = keywords[len(keywords) - 1].idx + len(keywords[len(keywords) - 1].text)
+
+        assembled_keywords = "".join(list(question)[idx_start:idx_end])
+
+        return assembled_keywords
+
+    else:
         return ""
-
-    question = question.replace("'", " ")
-    words_list = question.split(" ")
-
-    verb_index = 0
-    for verb in verbs:
-        if verb in words_list:
-            verb_index = words_list.index(verb)
-            break
-
-    try:
-        if words_list[verb_index + 1] in determinants:
-            words_list.pop(verb_index + 1)
-    except IndexError:
-        return ""
-
-    question = " ".join(words_list)
-    words_list = question.split(" ")
-
-    search_term, start_index, end_index = "", 0, 0
-
-    try:
-        for verb in verbs:
-            if verb in question:
-                for i in range(0, len(words_list)):
-                    if verb in words_list[i]:
-                        start_index = i + 1
-                    elif words_list[i] == "?":
-                        end_index = i
-                        break
-    except IndexError:
-        return ""
-
-    for i in range(start_index, end_index):
-        search_term += words_list[i] + " "
-
-    return search_term.rstrip()
