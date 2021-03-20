@@ -11,7 +11,7 @@ Flask==1.1.1
 fr-core-news-md==2.2.5
 idna==2.9
 itsdangerous==1.1.0
-Jinja2==2.11.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 more-itertools==8.2.0
 murmurhash==1.0.2
